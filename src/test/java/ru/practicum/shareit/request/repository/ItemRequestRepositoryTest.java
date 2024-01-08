@@ -40,6 +40,7 @@ class ItemRequestRepositoryTest {
         requester3 = new User(3L, "user3", "mail3@ya.ru");
         userRepository.save(requester1);
         userRepository.save(requester2);
+        userRepository.save(requester3);
         itemRequest1 = new ItemRequest(1L, "req1", requester1, LocalDateTime.now());
         itemRequest2 = new ItemRequest(2L, "req2", requester2, LocalDateTime.now());
         itemRequest3 = new ItemRequest(3L, "req3", requester1, LocalDateTime.now());
