@@ -28,14 +28,16 @@ class ItemRequestRepositoryTest {
 
     User requester1;
     User requester2;
+    User requester3;
     ItemRequest itemRequest1;
     ItemRequest itemRequest2;
     ItemRequest itemRequest3;
 
     @BeforeAll
-    private void beforeAll() {
+    public void beforeAll() {
         requester1 = new User(1L, "user1", "mail1@ya.ru");
         requester2 = new User(2L, "user2", "mail2@ya.ru");
+        requester3 = new User(3L, "user3", "mail3@ya.ru");
         userRepository.save(requester1);
         userRepository.save(requester2);
         itemRequest1 = new ItemRequest(1L, "req1", requester1, LocalDateTime.now());
@@ -51,13 +53,13 @@ class ItemRequestRepositoryTest {
         List<ItemRequest> res = itemRequestRepository
                 .findAllByRequesterIdOrderByCreatedDesc(requester1.getId());
 
-        assertEquals(res.size(), 2);
-        assertEquals(itemRequest3.getId(), res.get(0).getId());
-        assertEquals(itemRequest3.getDescription(), res.get(0).getDescription());
-        assertEquals(itemRequest3.getRequester().getId(), res.get(0).getRequester().getId());
-        assertEquals(itemRequest1.getId(), res.get(1).getId());
-        assertEquals(itemRequest1.getDescription(), res.get(1).getDescription());
-        assertEquals(itemRequest1.getRequester().getId(), res.get(1).getRequester().getId());
+        assertEquals(2, res.size());
+        assertEquals(itemRequest1.getId(), res.get(0).getId());
+        assertEquals(itemRequest1.getDescription(), res.get(0).getDescription());
+        assertEquals(requester1.getId(), res.get(0).getRequester().getId());
+        assertEquals(itemRequest3.getId(), res.get(1).getId());
+        assertEquals(itemRequest3.getDescription(), res.get(1).getDescription());
+        assertEquals(requester1.getId(), res.get(1).getRequester().getId());
     }
 
     @Test
@@ -75,31 +77,37 @@ class ItemRequestRepositoryTest {
         List<ItemRequest> res = itemRequestRepository
                 .findRequestsWithoutOwner(requester2.getId(), pageable);
 
-        assertEquals(res.size(), 2);
-        assertEquals(itemRequest3.getId(), res.get(0).getId());
-        assertEquals(itemRequest3.getDescription(), res.get(0).getDescription());
-        assertEquals(itemRequest3.getRequester().getId(), res.get(0).getRequester().getId());
-        assertEquals(itemRequest1.getId(), res.get(1).getId());
-        assertEquals(itemRequest1.getDescription(), res.get(1).getDescription());
-        assertEquals(itemRequest1.getRequester().getId(), res.get(1).getRequester().getId());
+        assertEquals(2, res.size());
+        assertEquals(itemRequest1.getId(), res.get(0).getId());
+        assertEquals(itemRequest1.getDescription(), res.get(0).getDescription());
+        assertEquals(requester1.getId(), res.get(0).getRequester().getId());
+        assertEquals(itemRequest3.getId(), res.get(1).getId());
+        assertEquals(itemRequest3.getDescription(), res.get(1).getDescription());
+        assertEquals(requester1.getId(), res.get(1).getRequester().getId());
     }
 
     @Test
     void findRequestsWithoutOwner_userWithoutRequests() {
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<ItemRequest> res = itemRequestRepository
-                .findRequestsWithoutOwner(999L, pageable);
+        List<ItemRequest> res = itemRequestRepository.findRequestsWithoutOwner(999L, pageable);
 
-        assertEquals(res.size(), 3);
-        assertEquals(itemRequest3.getId(), res.get(0).getId());
-        assertEquals(itemRequest3.getDescription(), res.get(0).getDescription());
-        assertEquals(itemRequest3.getRequester().getId(), res.get(0).getRequester().getId());
+        // Проверьте, что размер списка результатов равен 3
+        assertEquals(3, res.size());
+
+        // Проверьте первый элемент в списке результатов
+        assertEquals(itemRequest1.getId(), res.get(0).getId());
+        assertEquals(itemRequest1.getDescription(), res.get(0).getDescription());
+        assertEquals(itemRequest1.getRequester().getId(), res.get(0).getRequester().getId());
+
+        // Проверьте второй элемент в списке результатов
         assertEquals(itemRequest2.getId(), res.get(1).getId());
         assertEquals(itemRequest2.getDescription(), res.get(1).getDescription());
         assertEquals(itemRequest2.getRequester().getId(), res.get(1).getRequester().getId());
-        assertEquals(itemRequest1.getId(), res.get(2).getId());
-        assertEquals(itemRequest1.getDescription(), res.get(2).getDescription());
-        assertEquals(itemRequest1.getRequester().getId(), res.get(2).getRequester().getId());
+
+        // Проверьте третий элемент в списке результатов
+        assertEquals(itemRequest3.getId(), res.get(2).getId());
+        assertEquals(itemRequest3.getDescription(), res.get(2).getDescription());
+        assertEquals(itemRequest3.getRequester().getId(), res.get(2).getRequester().getId());
     }
 }
