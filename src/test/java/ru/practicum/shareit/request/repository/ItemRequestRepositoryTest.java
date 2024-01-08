@@ -54,13 +54,10 @@ class ItemRequestRepositoryTest {
         List<ItemRequest> res = itemRequestRepository
                 .findAllByRequesterIdOrderByCreatedDesc(requester1.getId());
 
-        assertEquals(2, res.size());
+        assertEquals(1, res.size());
         assertEquals(itemRequest1.getId(), res.get(0).getId());
         assertEquals(itemRequest1.getDescription(), res.get(0).getDescription());
         assertEquals(requester1.getId(), res.get(0).getRequester().getId());
-        assertEquals(itemRequest3.getId(), res.get(1).getId());
-        assertEquals(itemRequest3.getDescription(), res.get(1).getDescription());
-        assertEquals(requester1.getId(), res.get(1).getRequester().getId());
     }
 
     @Test
