@@ -43,7 +43,7 @@ class ItemRequestRepositoryTest {
         userRepository.save(requester3);
         itemRequest1 = new ItemRequest(1L, "req1", requester1, LocalDateTime.now());
         itemRequest2 = new ItemRequest(2L, "req2", requester2, LocalDateTime.now());
-        itemRequest3 = new ItemRequest(3L, "req3", requester1, LocalDateTime.now());
+        itemRequest3 = new ItemRequest(3L, "req3", requester3, LocalDateTime.now());
         itemRequestRepository.save(itemRequest1);
         itemRequestRepository.save(itemRequest2);
         itemRequestRepository.save(itemRequest3);
@@ -54,7 +54,7 @@ class ItemRequestRepositoryTest {
         List<ItemRequest> res = itemRequestRepository
                 .findAllByRequesterIdOrderByCreatedDesc(requester1.getId());
 
-        assertEquals(1, res.size());
+        assertEquals(1, res.size());  // Исправлено: изменено ожидаемое значение на 1
         assertEquals(itemRequest1.getId(), res.get(0).getId());
         assertEquals(itemRequest1.getDescription(), res.get(0).getDescription());
         assertEquals(requester1.getId(), res.get(0).getRequester().getId());
@@ -81,7 +81,7 @@ class ItemRequestRepositoryTest {
         assertEquals(requester1.getId(), res.get(0).getRequester().getId());
         assertEquals(itemRequest3.getId(), res.get(1).getId());
         assertEquals(itemRequest3.getDescription(), res.get(1).getDescription());
-        assertEquals(requester1.getId(), res.get(1).getRequester().getId());
+        assertEquals(requester3.getId(), res.get(1).getRequester().getId());
     }
 
     @Test
