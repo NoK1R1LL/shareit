@@ -54,7 +54,7 @@ class ItemRequestRepositoryTest {
         List<ItemRequest> res = itemRequestRepository
                 .findAllByRequesterIdOrderByCreatedDesc(requester1.getId());
 
-        assertEquals(1, res.size());  // Исправлено: изменено ожидаемое значение на 1
+        assertEquals(1, res.size());
         assertEquals(itemRequest1.getId(), res.get(0).getId());
         assertEquals(itemRequest1.getDescription(), res.get(0).getDescription());
         assertEquals(requester1.getId(), res.get(0).getRequester().getId());
@@ -72,35 +72,35 @@ class ItemRequestRepositoryTest {
     void findRequestsWithoutOwner() {
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<ItemRequest> res = itemRequestRepository
-                .findRequestsWithoutOwner(requester2.getId(), pageable);
+        List<ItemRequest> res = itemRequestRepository.findRequestsWithoutOwner(requester2.getId(), pageable);
 
         assertEquals(2, res.size());
-        assertEquals(itemRequest1.getId(), res.get(0).getId());
-        assertEquals(itemRequest1.getDescription(), res.get(0).getDescription());
-        assertEquals(requester1.getId(), res.get(0).getRequester().getId());
-        assertEquals(itemRequest3.getId(), res.get(1).getId());
-        assertEquals(itemRequest3.getDescription(), res.get(1).getDescription());
-        assertEquals(requester3.getId(), res.get(1).getRequester().getId());
+        assertEquals(itemRequest3.getId(), res.get(0).getId());
+        assertEquals(itemRequest3.getDescription(), res.get(0).getDescription());
+        assertEquals(requester3.getId(), res.get(0).getRequester().getId());
+
+        assertEquals(itemRequest1.getId(), res.get(1).getId());
+        assertEquals(itemRequest1.getDescription(), res.get(1).getDescription());
+        assertEquals(requester1.getId(), res.get(1).getRequester().getId());
     }
 
     @Test
     void findRequestsWithoutOwner_userWithoutRequests() {
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<ItemRequest> res = itemRequestRepository.findRequestsWithoutOwner(999L, pageable);
+        List<ItemRequest> res = itemRequestRepository
+                .findRequestsWithoutOwner(999L, pageable);
 
         assertEquals(res.size(), 3);
-        assertEquals(itemRequest1.getId(), res.get(0).getId());
-        assertEquals(itemRequest1.getDescription(), res.get(0).getDescription());
-        assertEquals(itemRequest1.getRequester().getId(), res.get(0).getRequester().getId());
-
+        assertEquals(itemRequest3.getId(), res.get(0).getId());
+        assertEquals(itemRequest3.getDescription(), res.get(0).getDescription());
+        assertEquals(itemRequest3.getRequester().getId(), res.get(0).getRequester().getId());
         assertEquals(itemRequest2.getId(), res.get(1).getId());
         assertEquals(itemRequest2.getDescription(), res.get(1).getDescription());
         assertEquals(itemRequest2.getRequester().getId(), res.get(1).getRequester().getId());
-
-        assertEquals(itemRequest3.getId(), res.get(2).getId());
-        assertEquals(itemRequest3.getDescription(), res.get(2).getDescription());
-        assertEquals(itemRequest3.getRequester().getId(), res.get(2).getRequester().getId());
+        assertEquals(itemRequest1.getId(), res.get(2).getId());
+        assertEquals(itemRequest1.getDescription(), res.get(2).getDescription());
+        assertEquals(itemRequest1.getRequester().getId(), res.get(2).getRequester().getId());
     }
+
 }

@@ -16,6 +16,7 @@ public interface ItemRequestRepository extends JpaRepository<ItemRequest, Long> 
     @Query("SELECT r " +
             "FROM ItemRequest r " +
             "WHERE r.requester.id <> :userId " +
-            "ORDER BY r.created DESC ")
+            "ORDER BY r.created DESC, r.id DESC")
     List<ItemRequest> findRequestsWithoutOwner(@Param("userId") Long userId, Pageable pageable);
+
 }
