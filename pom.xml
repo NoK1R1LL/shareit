@@ -17,7 +17,7 @@
 
 	<properties>
 		<java.version>11</java.version>
-		<org.mapstruct.version>1.18.22</org.mapstruct.version>
+		<org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
 	</properties>
 
 	<dependencies>
@@ -62,11 +62,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-			<version>1.5.3.Final</version>
 		</dependency>
 	</dependencies>
 
@@ -271,4 +266,5 @@
 			</build>
 		</profile>
 	</profiles>
+
 </project>
