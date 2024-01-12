@@ -18,6 +18,7 @@ import ru.practicum.shareit.booking.service.BookingService;
 import ru.practicum.shareit.exceptions.EntityNotAvailable;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 
 import java.util.List;
 
@@ -57,12 +58,10 @@ public class BookingController {
     @GetMapping
     public List<AnswerBookingDto> getAllBookingByUser(
             @RequestHeader("X-Sharer-User-Id") Long userId,
-            @RequestParam(value = "state", defaultValue = "ALL", required = false) String state,
-            @RequestParam(value = "from", defaultValue = "0", required = false) int from,
-            @RequestParam(value = "size", defaultValue = "10", required = false) int size) {
-        if (from < 0 || size < 1) {
-            throw new EntityNotAvailable("Invalid \"size\" or \"from\"");
-        }
+            @RequestParam(value = "state", defaultValue = "ALL") String state,
+            @Positive @RequestParam(value = "from", defaultValue = "0") int from,
+            @Positive @RequestParam(value = "size", defaultValue = "10") int size) {
+
         log.info("GET /bookings?state={}&from={}&size={} : get list of bookings by user ID {} with state",
                 state, from, size, userId);
         return bookingService.getAllBookingByUser(userId, state, PageRequest.of(from / size, size));
