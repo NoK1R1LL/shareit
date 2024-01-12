@@ -61,6 +61,9 @@ public class BookingController {
             @Positive@RequestParam(value = "state", defaultValue = "ALL") String state,
             @Positive @RequestParam(value = "from", defaultValue = "0") int from,
             @Positive @RequestParam(value = "size", defaultValue = "10") int size) {
+        if (from < 0 || size < 1) {
+            throw new EntityNotAvailable("Invalid \"size\" or \"from\"");
+        }
 
         log.info("GET /bookings?state={}&from={}&size={} : get list of bookings by user ID {} with state",
                 state, from, size, userId);
